@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+
+  mysql5712:
+    image: mysql:5.7.12
+    container_name: mysql12
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    ports:
+      - 3312:3306
+    environment:
+      # DONT DO THIS
+      MYSQL_ROOT_PASSWORD: password
+
+  mysql5740:
+    image: mysql:5.7.40
+    container_name: mysql40
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    ports:
+      - 3340:3306
+    environment:
+      # DONT DO THIS
+      MYSQL_ROOT_PASSWORD: password
+
