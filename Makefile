@@ -25,7 +25,20 @@ load:
 	./load.sh	
 
 cli12:
-	docker exec -it mysql12 mysql -uroot -ppassword
+	docker exec -it mysql12 mysql -uroot -ppassword -A employees
 
 cli40:
-	docker exec -it mysql40 mysql -uroot -ppassword
+	docker exec -it mysql40 mysql -uroot -ppassword -A employees
+
+enable_log_12:
+	docker exec -it mysql12 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log_file = '/var/lib/mysql/general_log.log'; SET GLOBAL general_log = 'ON';"
+
+disable_log_12:
+	docker exec -it mysql12 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log = 'OFF';"
+
+enable_log_40:
+	docker exec -it mysql40 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log_file = '/var/lib/mysql/general_log.log'; SET GLOBAL general_log = 'ON';"
+
+disable_log_40:
+	docker exec -it mysql40 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log = 'OFF';"
+
