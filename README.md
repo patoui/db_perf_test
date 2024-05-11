@@ -1,4 +1,4 @@
-# MySQL test
+# DB performance test
 
 A variety of tests against MySQL
 
