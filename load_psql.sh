@@ -16,4 +16,5 @@ docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY
 docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY dept_emp FROM 'dept_emp.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
 docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY dept_manager FROM 'dept_manager.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
 docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY titles FROM 'titles.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
-docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY salaries FROM 'salaries.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
+docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY salaries FROM 'salaries1.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
+docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY salaries FROM 'salaries2.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
