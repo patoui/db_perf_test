@@ -4,25 +4,37 @@ services:
 
   mysql5740:
     image: mysql:5.7.40
-    container_name: mysql40
+    container_name: mysql57
     platform: linux/x86_64
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     ports:
-      - 3340:3306
+      - 3357:3306
     environment:
       # DONT DO THIS
       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf
 
   mysql8036:
-    image: mysql:8.0.36-debian
+    image: mysql:8.0.36
     container_name: mysql8036
     platform: linux/x86_64
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
     ports:
-      - 3340:3306
+      - 3380:3306
     environment:
       # DONT DO THIS
       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf
 
+  postgres163:
+    container_name: postgres163
+    image: postgres:16.3
+    environment:
+      # DONT DO THIS
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432

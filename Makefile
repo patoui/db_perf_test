@@ -24,14 +24,20 @@ list:
 load:
 	./load.sh
 
-cli40:
-	docker exec -it mysql40 mysql -uroot -ppassword -A employees
+cli57:
+	docker exec -it mysql57 mysql -uroot -ppassword -A employees
 
 cli8036:
 	docker exec -it mysql8036 mysql -uroot -ppassword -A employees
 
+postgres163:
+	docker exec -it postgres163 psql -U postgres -d employees
+
 server8036:
 	docker exec -it mysql8036 /bin/bash
+
+server163:
+	docker exec -it postgres163 /bin/bash
 
 enable_log_40:
 	docker exec -it mysql40 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log_file = '/var/lib/mysql/general_log.log'; SET GLOBAL general_log = 'ON';"
