@@ -28,6 +28,9 @@ start:
 stop:
 	docker compose down
 
+restart:
+	docker compose up --remove-orphans --build --force-recreate -d
+
 list:
 	docker ps
 
@@ -47,7 +50,7 @@ server5744:
 	docker exec -it mysql5744 /bin/bash
 
 server8036:
-	docker exec -it mysql8036 /bin/bash
+	docker exec -it mysql8036 bash
 
 server163:
 	docker exec -it postgres163 /bin/bash
@@ -63,4 +66,10 @@ enable_log_8036:
 
 disable_log_8036:
 	docker exec -it mysql8036 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log = 'OFF';"
+
+benchmark_read_5744:
+	sysbench benchmark_read.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3357 --mysql-password=password --mysql-db=employees --report-interval=5 --events=0 --time=10 run
+
+benchmark_read_8036:
+	sysbench benchmark_read.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3380 --mysql-password=password --mysql-db=employees --report-interval=5 --events=0 --time=10 run
 

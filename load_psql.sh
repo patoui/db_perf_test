@@ -9,7 +9,7 @@ fi
 docker exec -w /tmp/data -it postgres163 psql -U postgres -c "DROP DATABASE IF EXISTS employees;"
 docker exec -w /tmp/data -it postgres163 psql -U postgres -c "CREATE DATABASE employees;"
 
-docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -f init_psql.sql
+docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -f init_pgsql.sql
 
 docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY departments FROM 'departments.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
 docker exec -w /tmp/data -it postgres163 psql -U postgres -d employees -c "\COPY employees FROM 'employees.tsv' WITH (FORMAT csv, DELIMITER E'\t', HEADER true);"
