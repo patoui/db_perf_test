@@ -1,0 +1,43 @@
+Running count benchmark for MySQL 8...
+sysbench 1.0.20 (using system LuaJIT 2.1.1703358377)
+
+Running the test with following options:
+Number of threads: 1
+Report intermediate results every 15 second(s)
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+Threads started!
+
+[ 15s ] thds: 1 tps: 17.26 qps: 17.26 (r/w/o: 17.26/0.00/0.00) lat (ms,95%): 0.00 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 1 tps: 17.40 qps: 17.40 (r/w/o: 17.40/0.00/0.00) lat (ms,95%): 0.00 err/s: 0.00 reconn/s: 0.00
+[ 45s ] thds: 1 tps: 17.46 qps: 17.46 (r/w/o: 17.46/0.00/0.00) lat (ms,95%): 0.00 err/s: 0.00 reconn/s: 0.00
+[ 60s ] thds: 1 tps: 17.47 qps: 17.47 (r/w/o: 17.47/0.00/0.00) lat (ms,95%): 0.00 err/s: 0.00 reconn/s: 0.00
+SQL statistics:
+    queries performed:
+        read:                            1045
+        write:                           0
+        other:                           0
+        total:                           1045
+    transactions:                        1045   (17.40 per sec.)
+    queries:                             1045   (17.40 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          60.0479s
+    total number of events:              1045
+
+Latency (ms):
+         min:                                   45.46
+         avg:                                   57.45
+         max:                                   90.06
+         95th percentile:                        0.00
+         sum:                                60040.10
+
+Threads fairness:
+    events (avg/stddev):           1045.0000/0.00
+    execution time (avg/stddev):   60.0401/0.00
+

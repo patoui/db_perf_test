@@ -6,8 +6,6 @@ if ! docker exec -it mysql5744 test -d "/tmp/data"; then
   echo "Finished copying the test data"
 fi
 
-docker exec -w /tmp/data -it mysql5744 sh -c "mysql -ppassword < init_mysql.sql"
-
 docker exec -w /tmp/data mysql5744 mysql -uroot -ppassword -Demployees -e "LOAD DATA INFILE '/tmp/data/departments.tsv' INTO TABLE departments FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' IGNORE 1 LINES;"
 docker exec -w /tmp/data mysql5744 mysql -uroot -ppassword -Demployees -e "LOAD DATA INFILE '/tmp/data/employees.tsv' INTO TABLE employees FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' IGNORE 1 LINES;"
 docker exec -w /tmp/data mysql5744 mysql -uroot -ppassword -Demployees -e "LOAD DATA INFILE '/tmp/data/dept_emp.tsv' INTO TABLE dept_emp FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' IGNORE 1 LINES;"

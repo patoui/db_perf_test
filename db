@@ -1,0 +1,144 @@
+#!/bin/bash
+
+# Check if a command name is provided as an argument
+if [ -z "$1" ]; then
+  # TODO: add command descriptions and examples
+  echo "Usage: $0 <command_name> [additional_parameters...]"
+  exit 1
+fi
+
+COMMAND_NAME="$1"
+shift
+
+case "$COMMAND_NAME" in
+  list)
+    echo "Listing containers..."
+    docker compose ps
+    ;;
+
+  up)
+    echo "Starting up the world..."
+    docker compose up -d
+    ;;
+
+  down)
+    echo "Tearing down the world..."
+    docker compose down
+    ;;
+
+  restart)
+    echo "Restarting the world..."
+    docker compose up --remove-orphans --build --force-recreate -d
+    ;;
+
+  reinit)
+    echo "Reinitializing the world..."
+    source scripts/reinit.sh
+    ;;
+
+  init)
+    echo "Initializing the world..."
+    source scripts/init.sh
+    ;;
+
+  create)
+    echo "Creating tables..."
+    source scripts/create_tables/create.sh
+    ;;
+
+  load)
+    echo "Loading tables..."
+    source scripts/load_tables/load.sh
+    ;;
+
+  many_columns)
+    echo "Loading many columns..."
+    source scripts/many_columns/many_columns.sh
+    ;;
+
+  mysql8)
+    echo "Connection to MySQL 8 cli..."
+    docker exec -it mysql8036 mysql -uroot -ppassword -A employees
+    ;;
+
+  mysql5)
+    echo "Connection to MySQL 5.7 cli..."
+    docker exec -it mysql5744 mysql -uroot -ppassword -A employees
+    ;;
+
+  pgsql)
+    echo "Connection to PostgreSQL 16.3 cli..."
+    docker exec -it postgres163 psql -U postgres -d employees
+    ;;
+
+  server5)
+    echo "Connection to MySQL 5.7 server..."
+	  docker exec -it mysql5744 /bin/bash
+    ;;
+
+  server8)
+    echo "Connection to MySQL 8 server..."
+    docker exec -it mysql8036 /bin/bash
+    ;;
+
+  server163)
+    echo "Connection to PostgreSQL 16.3 server..."
+    docker exec -it postgres163 /bin/bash
+    ;;
+
+  enable_log_mysql57)
+    echo "Enabling general log for MySQL 5.7..."
+    docker exec -it mysql5744 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log_file = '/var/lib/mysql/general_log.log'; SET GLOBAL general_log = 'ON';"
+    ;;
+
+  disable_log_mysql57)
+    echo "Disabling general log for MySQL 5.7..."
+    docker exec -it mysql5744 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log = 'OFF';"
+    ;;
+
+  enable_log_mysql8)
+    echo "Enabling general log for MySQL 8..."
+    docker exec -it mysql8036 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log_file = '/var/lib/mysql/general_log.log'; SET GLOBAL general_log = 'ON';"
+    ;;
+
+  disable_log_mysql8)
+    echo "Disabling general log for MySQL 8..."
+    docker exec -it mysql8036 mysql -uroot -ppassword -A employees -e "SET GLOBAL general_log = 'OFF';"
+    ;;
+
+  benchmark_mysql57_read)
+    echo "Running read benchmark for MySQL 5.7..."
+    sysbench benchmarks/benchmark_read.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3357 --mysql-password=password --mysql-db=employees --report-interval=15 --events=0 --time=60 run
+    ;;
+
+  benchmark_mysql8_read)
+    echo "Running read benchmark for MySQL 8..."
+    sysbench benchmarks/benchmark_read.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3380 --mysql-password=password --mysql-db=employees --report-interval=15 --events=0 --time=60 run
+    ;;
+
+  benchmark_mysql8_count)
+    echo "Running count benchmark for MySQL 8..."
+    sysbench benchmarks/benchmark_count.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3380 --mysql-password=password --mysql-db=employees --report-interval=15 --events=0 --time=60 run
+    ;;
+
+  benchmark_mysql8_count_date_range)
+    echo "Running count benchmark for MySQL 8..."
+    sysbench benchmarks/benchmark_count_date_range.lua --mysql-user=root --mysql-host=0.0.0.0 --mysql-port=3380 --mysql-password=password --mysql-db=employees --report-interval=15 --events=0 --time=60 run
+    ;;
+
+  benchmark_pgsql_read)
+    echo "Running read benchmark for PostgreSQL 16.3..."
+    sysbench benchmarks/benchmark_read.lua --db-driver=pgsql --pgsql-user=postgres --pgsql-host=0.0.0.0 --pgsql-port=5433 --pgsql-password=password --pgsql-db=employees --report-interval=15 --events=0 --time=60 run
+    ;;
+
+  # Add more cases here for other commands
+  *)
+    echo "Unknown command: $COMMAND_NAME"
+    ;;
+esac
+
+# Check if the command was successful
+if [ $? -ne 0 ]; then
+  echo "Error: Command '$COMMAND_NAME' failed."
+  exit 1
+fi
